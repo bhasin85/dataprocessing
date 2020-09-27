@@ -1,13 +1,13 @@
 # dataprocessing
 
 
-## Run Unit Tests
+## Download docker image
 
-python -m unittest discover -p '*_test.py'
+docker pull bhasin85/dataprocessing:latest
 
 ## Go to docker terminal
 
-docker run -it data-processor:latest bin/bash
+docker run -it bhasin85/dataprocessing:latest bin/bash
 
 ## Help Command
 
@@ -28,3 +28,7 @@ python run.py --type dp --spec_file resources/data_processing_spec.json --genera
 ## Generate Hashed CSV File
 
 python run.py --type dp --spec_file resources/data_processing_spec.json --hash_csv_file hash_data.csv --csv_file data.csv
+
+## Run Unit Tests
+
+python -m unittest discover -p '*_test.py'
