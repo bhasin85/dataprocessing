@@ -1,0 +1,13 @@
+{
+    "ColumnNames": [
+        "first_name",
+        "last_name",
+        "address",
+        "date_of_birth"
+    ],
+    "anonymise":[
+        "True",
+        "True",
+        "False"
+    ]
+}
