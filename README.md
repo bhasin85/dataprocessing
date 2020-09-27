@@ -7,7 +7,11 @@ python -m unittest discover -p '*_test.py'
 
 ## Go to docker terminal
 
-docker run -it python-barcode:latest bin/bash
+docker run -it data-processor:latest bin/bash
+
+## Help Command
+
+python run.py --help
 
 ## Generate Fixed Width File
 

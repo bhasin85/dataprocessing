@@ -3,7 +3,30 @@ import argparse
 from data_processor import DataProcessor
 from file_parser import FileParser
 
-parser = argparse.ArgumentParser()
+example_text = '''example:
+
+## Generate Fixed Width File
+
+python run.py --type fp --spec_file resources/spec.json --generate_fix_width_file fixed_width_file.txt
+
+## Generate Delimited File using Fixed Width File
+
+python run.py --type fp --spec_file resources/spec.json --generate_delimited_file delimited_file.txt --fix_width_file fixed_width_file.txt 
+
+## Generate CSV File
+
+python run.py --type dp --spec_file resources/data_processing_spec.json --generate_csv_file data.csv
+
+## Generate Hashed CSV File
+
+python run.py --type dp --spec_file resources/data_processing_spec.json --hash_csv_file hash_data.csv --csv_file data.csv
+
+ '''
+
+parser = argparse.ArgumentParser(prog='Data Processor',
+                                 description='Parse fixed width data and hashing',
+                                 epilog=example_text,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
 parser.add_argument('--spec_file', help='Spec file', required=True, default="spec.json")
 parser.add_argument('--type', choices=['fp', 'dp'], help='Options: fp-> file processor, dp-> data processor', required=True)
 
