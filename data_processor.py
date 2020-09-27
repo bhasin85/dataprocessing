@@ -6,8 +6,6 @@ import random
 import string
 
 from pyspark.shell import spark
-from pyspark.sql.functions import when, udf
-from pyspark.sql.types import StringType
 
 logging.basicConfig(level=logging.INFO)
 
@@ -51,20 +49,20 @@ class DataProcessor:
 
         try:
             logging.info("Generating hashed csv file {file}".format(file=hash_file))
-
-
-            df = spark.read.csv(csv_file, header='true')
+            df = spark.read.csv(csv_file, header=True)
             columns = df.schema.names
+            df = df.toPandas()
+
             for column, anonymise in zip(columns, self.spec["anonymise"]):
-                encode = udf(lambda x: hashlib.sha1(x.encode()) if anonymise == "True" else x, StringType())
-                df = df.withColumn(column, encode(df[column]))
+                if anonymise == "True":
+                    df[column] = [hashlib.sha1(str.encode(str(i))).hexdigest() for i in df[column]]
 
-
-            df.write.csv(hash_file, header='true', mode='overwrite')
+            df.to_csv(hash_file, header=True, index=False)
             logging.info("Generated hashed csv file {file}".format(file=hash_file))
         except Exception as e:
-            logging.error(e, "Failed to generate hashed csv file {file}".format(file=hash_file))
-            raise e
+            error = "Failed to generate hashed csv file {file}".format(file=hash_file)
+            logging.error(e, error)
+            raise ValueError(error)
         finally:
             if output:
                 output.close()

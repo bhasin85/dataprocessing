@@ -14,18 +14,19 @@ class TestBaseClass(unittest.TestCase):
         self.resource_folder = (self.current_path / "resources").absolute()
         self.temp_folder = (self.current_path / "temp").absolute()
 
-    # def tearDown(self):
-    #     try:
-    #         files = [f for f in os.listdir(self.temp_folder) if f.endswith(".txt")]
-    #         logging.info("Cleaning up files {files}".format(files=files))
-    #         for f in files:
-    #             os.remove(os.path.join(self.temp_folder, f))
-    #         logging.info("Completed cleanup")
-    #     except OSError as e:
-    #         raise e
+    def tearDown(self):
+        try:
+            files = [f for f in os.listdir(self.temp_folder) if f.endswith(".txt")]
+            logging.info("Cleaning up files {files}".format(files=files))
+            for f in files:
+                os.remove(os.path.join(self.temp_folder, f))
+            logging.info("Completed cleanup")
+        except OSError as e:
+            raise e
 
     @staticmethod
     def compare_files(f1, f2):
+        logging.info("Comparing {} and {}".format(f1, f2))
         file1, file2 = None, None
 
         try:

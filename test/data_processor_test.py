@@ -1,8 +1,6 @@
 import logging
 import unittest
 
-from pyspark.sql.utils import AnalysisException
-
 from data_processor import DataProcessor
 from test.base_test import TestBaseClass
 
@@ -33,17 +31,17 @@ class TestDataProcessor(TestBaseClass):
             spec_file = (self.resource_folder / "empty_data_processing_spec.json").absolute()
             self.invalid_data_processor = DataProcessor(spec_file=spec_file)
 
-        with self.assertRaises(AnalysisException):
+        with self.assertRaises(ValueError):
             self.data_processor.hash_csv_file(csv_file="filedoesnotexist.csv", hash_file=self.hash_csv_file)
 
 
-    # def test_file_generation(self):
-    #     self.data_processor.generate_csv_file(csv_file=self.csv_file, lines_count=10)
-    #     self.data_processor.hash_csv_file(csv_file=str(self.csv_file), hash_file=str(self.hash_csv_file))
+    def test_file_generation(self):
+        self.data_processor.generate_csv_file(csv_file=self.csv_file, lines_count=10)
+        self.data_processor.hash_csv_file(csv_file=str(self.csv_file), hash_file=str(self.hash_csv_file))
 
     def test_file_content(self):
         self.data_processor.hash_csv_file(csv_file=str(self.existing_csv_file), hash_file=str(self.hash_csv_file))
-        #self.assertTrue(self.compare_files(self.hash_csv_file, self.existing_hash_csv_file))
+        self.assertTrue(self.compare_files(self.hash_csv_file, self.existing_hash_csv_file))
 
 
 if __name__ == '__main__':

@@ -1,10 +1,8 @@
-FROM python:3
-
-ADD resources /
-ADD test /
-ADD data_processor.py /
-ADD file_parser.py /
-
+FROM openjdk:slim
+COPY --from=python:3.6 / /
 RUN pip install pyspark
-
-CMD [ "python", "./my_script.py" ]
+RUN pip install pandas
+RUN pip install findspark
+COPY . /
+CMD [ "python", "./run.py" ]
+#CMD ["python", "-m", "unittest", "discover", "-p", "*_test.py"]
